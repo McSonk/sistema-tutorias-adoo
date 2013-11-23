@@ -1,0 +1,91 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE project>
+<project name="sistema-tutorias-adoo" basedir="." default="main">
+
+	<!-- Acceso a variables ambiente -->
+	<property environment="env"/>
+	<property file="${basedir}/build.properties"/>
+
+	<tstamp>
+		<format property="datetime"
+		        pattern="yyyy-MM-dd-HH-mm-ss"
+		        unit="second"/>
+	</tstamp>
+	<target name="dependencies"><!-- Librerías -->
+		<mkdir dir="${web.lib.dir}"/>
+		<get src="${mysql.url}"
+		     dest="${web.lib.dir}/${mysql.jar}"
+		     verbose="true" usetimestamp="true"/>
+		<get src="${jstl.url}"
+		     dest="${web.lib.dir}/${jstl.jar}"
+		     verbose="true" usetimestamp="true"/>
+		<get src="${commons.io.url}"
+		     dest="${web.lib.dir}/${commons.io.jar}"
+		     verbose="true" usetimestamp="true"/>
+		<get src="${tomcat.juli.url}"
+		     dest="${web.lib.dir}/${tomcat.juli.jar}"
+		     verbose="true" usetimestamp="true"/>
+		<get src="${tomcat.jdbc.url}"
+		     dest="${web.lib.dir}/${tomcat.jdbc.jar}"
+		     verbose="true" usetimestamp="true"/>
+		<get src="${log4j.url}"
+		     dest="${web.lib.dir}/${log4j.jar}"
+		     verbose="true" usetimestamp="true"/>
+	</target>
+
+	<target name="include-jar" depends="dependencies">
+		<path id="compile.classpath">
+			<fileset dir="${web.lib.dir}">
+				<include name="*.jar"/>
+			</fileset>
+			<!-- Librerías de Tomcat -->
+			<fileset dir="${env.CATALINA_HOME}/lib">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+	</target>
+
+	<target name="web-xml">
+		<delete file="${web.dir}/WEB-INF/web.xml"/>
+		<copy file="${web.dir}/WEB-INF/web-template.xml"
+		      tofile="${web.dir}/WEB-INF/web.xml">
+			<filterchain>
+			<replacetokens>
+				<token key="DB_IP"
+				       value="${DB_IP}"/>
+				<token key="DB_PORT"
+				       value="${DB_PORT}"/>
+				<token key="DB_USERNAME"
+				       value="${DB_USERNAME}"/>
+				<token key="DB_PASSWORD"
+				       value="${DB_PASSWORD}"/>
+			</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+
+	<target name="compile" depends="include-jar,init,web-xml">
+		<javac destdir="${build.classes.dir}"
+		       debug="true"
+		       srcdir="${src.dir}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+
+	<target name="war" depends="compile">
+		<war destfile="${dist.dir}/${project.name}.war"
+		     webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}"/>
+			<!-- <lib dir="${web.lib.dir}"/> -->
+			<!-- <classes dir="${build.classes.dir}"/> -->
+		</war>
+	</target>
+
+	<target name="main" depends="war"/>
+</project>
+
