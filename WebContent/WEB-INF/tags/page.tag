@@ -15,21 +15,17 @@
 <div id="nav">
 <ul id="page-menu">
 	<li><a href="${root}/">Inicio</a></li>
-	<li><a href="#">Item 1</a>
+	<li><a href="#">Test</a>
 		<ul>
-			<li><a href="#">Sub Item 1.1</a></li>
+			<li><a href="${root}/test/time">Time</a></li>
 		</ul>
-	</li>
-	<li><a href="#">Item 2</a>
 		<ul>
-			<li><a href="#">Sub Item 2.1</a></li>
-		</ul>
-	</li>
-	<li><a href="#">Item 3</a>
-		<ul>
-			<li><a href="#">Sub Item 3.1</a></li>
-			<li><a href="#">Sub Item 3.2</a></li>
-			<li><a href="#">Sub Item 3.3</a></li>
+			<li><a href="#">MySQL</a>
+				<ul>
+				<li><a href="${root}/test/mysql/connection">
+					Connection</a></li>
+				</ul>
+			</li>
 		</ul>
 	</li>
 </ul>
