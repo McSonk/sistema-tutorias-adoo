@@ -50,6 +50,7 @@ public class MappedPOJOHandler extends ChainedInvocationHandler {
 		       method.getName().matches("^toString"));
 	}
 
+	/* Chained method for a fluid interface */
 	private boolean isChainedSetterMethod(Method method) {
 		return method.getName().matches("^set.*") &&
 				 method.getReturnType() == interfaceClass;

@@ -12,8 +12,9 @@ package util.pojo;
  * <pre>
  * interface Account extends POJO {
  *    // There are no restrictions about types, except that
- *    // setter's must return void and have one parameter and
- *    // getter's must return something and have no parameters
+ *    // setter's must return void or the same interface to achieve a
+ *    // a chained method that returns the same object and have one
+ *    // parameter or getter's must return something and have no parameters
  *    public void setBooleanProperty( boolean property );
  *    public void setStringProperty( String property );
  *    ...
